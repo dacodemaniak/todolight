@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Todo } from './models/todo';
+import { TodoService } from './services/todo.service';
+import { Constants } from './constants/constants';
 
 @Component({
   selector: 'app-root',
@@ -20,10 +22,20 @@ export class AppComponent implements OnInit {
    * Injecte une instance de FormBuilder dans le contrôleur
    * @param formBuilder Instance d'un objet formBuilder injecté
    */
-  public constructor(private formBuilder: FormBuilder) {}
+  public constructor(
+    private formBuilder: FormBuilder,
+    private _api: TodoService) {}
 
   public get title() {
     return this.todoForm.get('title');
+  }
+
+  public get debut() {
+    return this.todoForm.get('debut');
+  }
+
+  public get fin() {
+    return this.todoForm.get('fin');
   }
   /**
    * Méthode invoquée immédiatement après l'instanciation de l'objet
@@ -36,19 +48,23 @@ export class AppComponent implements OnInit {
           Validators.required,
           Validators.minLength(5)
         ]
+      ],
+      debut: [
+        '',
+        [
+          Validators.required
+        ]
+      ],
+      fin: [
+        '',
+        [
+          Validators.required
+        ]
       ]
     });
   }
 
   public formSubmit(): void {
-    if (this.todoForm.valid) {
-      this._todo = new Todo();
-      this._todo.setTitle(this.todoForm.controls.title.value);
-
-      // Faire persister la données dans localStorage
-      this._todo.persist();
-
-      console.log('Validation du formulaire : ' + this._todo.getTitle());
-    }
+    this._api.addTodo(this.todoForm.value);
   }
 }

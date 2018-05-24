@@ -1,6 +1,9 @@
 export class Todo {
 
-  private _title: string;
+  public id: number;
+  public title: string;
+  public debut: any;
+  public fin: any;
 
   public constructor() {}
 
@@ -8,7 +11,7 @@ export class Todo {
    * Retourne le titre du todo
    */
   public getTitle(): string {
-    return this._title;
+    return this.title;
   }
 
   /**
@@ -17,7 +20,16 @@ export class Todo {
    * @return Todo
    */
   public setTitle(title: string): Todo {
-    this._title = title;
+    this.title = title;
+    return this;
+  }
+
+  /**
+   * Casting d'un objet de type "any" en type Todo
+   * @param input Données à traiter
+   */
+  public deserialize(input: any): Todo {
+    Object.assign(this, input);
     return this;
   }
 

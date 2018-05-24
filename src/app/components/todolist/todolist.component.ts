@@ -9,28 +9,22 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./todolist.component.scss']
 })
 export class TodolistComponent implements OnInit {
-  public todos: Todo[];
+  private _todos: Todo[];
+  public todos: Todo[] = [];
 
-  constructor(private _todos: TodoService) { }
+  constructor(private _api: TodoService) { }
 
 
   ngOnInit() {
-    /*this._todos.getTodos().subscribe(
-      (datas) => {
-        this.todos = datas; // ECMA Script 6
-        console.log("Here : " + JSON.stringify(this.todos));
-      },
-      (error) => {
-        console.log('Erreur : ' + error);
-      }
-    );*/
-    console.log('ngOnInit');
-    this._todos.getTodos().pipe(
-      map((data: Todo[]) => {
-        console.log('Données : ' + JSON.stringify(data));
-        this.todos = data;
-      })
-    );
+   this._api.getTodos().subscribe(
+     (datas) => {
+       console.log(JSON.stringify(datas));
+       this.todos = datas;
+     },
+     (error) => {
+       console.log('Erreur : ' + error);
+     }
+   );
   }
 
 }
