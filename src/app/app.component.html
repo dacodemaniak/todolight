@@ -71,17 +71,17 @@
           'btn': true,
           'btn-outline-primary': true
         }">
-          Ajouter
+          {{ buttonContent }}
       </button>
     </div>
   </form>
 
-  <!-- Mode debug -->
+  <!-- Mode debug
   <p>Formulaire : {{ todoForm.value | json }} : {{ todoForm.status | json }}</p>
-  <!-- Fin mode debug -->
+   Fin mode debug -->
 </div>
 
 <div class="container">
-  <app-todolist></app-todolist>
+  <app-todolist (loadTodo)="receiveTodo($event)"></app-todolist>
 </div>
 

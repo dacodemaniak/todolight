@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 export class Todo {
 
   public id: number;
@@ -7,6 +9,9 @@ export class Todo {
 
   public constructor() {}
 
+  public getId(): number {
+    return this.id;
+  }
   /**
    * Retourne le titre du todo
    */
@@ -22,6 +27,14 @@ export class Todo {
   public setTitle(title: string): Todo {
     this.title = title;
     return this;
+  }
+
+  public getDebut(): moment.Moment {
+    return moment(this.debut, 'YYYY-MM-DD');
+  }
+
+  public getFin(): moment.Moment {
+    return moment(this.fin, 'YYYY-MM-DD');
   }
 
   /**

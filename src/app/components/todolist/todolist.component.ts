@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { TodoService } from './../../services/todo.service';
 import { Todo } from './../../models/todo';
 import { Subscription } from 'rxjs';
@@ -14,16 +14,35 @@ export class TodolistComponent implements OnInit {
   private _todos: Todo[];
   public todos: Todo[] = [];
 
+  // Décorateur @Output()
+  @Output() loadTodo: EventEmitter<Todo> = new EventEmitter<Todo>();
+
   constructor(private _api: TodoService) {
     // Souscrire aux changement de todo
     this.subscription = this._api.getTodo()
       .subscribe((todo) => {
-        console.log('Todo : ' + JSON.stringify(todo));
+        console.log('Observable Todo : ' + JSON.stringify(todo));
         // Ajoute le todo à la liste des todos
-        this.todos.push(todo);
+        //let index = this._find(todo);
+        let index = this.todos.findIndex((obj) => obj.getId() == todo.getId() );
+        console.log('Index : ' + index);
+        if (index === -1) {
+          this.todos.push(todo);
+        } else {
+          this.todos[index] = todo;
+        }
     });
   }
 
+  public load(todo: Todo): void {
+    this.loadTodo.emit(todo);
+  }
+
+  public delete(todo: Todo) {
+    let index = this.todos.indexOf(todo);
+    this.todos.splice(index, 1);
+    this._api.deleteTodo(todo.getId());
+  }
 
   ngOnInit() {
    this._api.getTodos().subscribe(
@@ -38,4 +57,16 @@ export class TodolistComponent implements OnInit {
    );
   }
 
+  private _find(toFind: Todo) {
+    let index: Number = -1;
+    let indice: Number = 0;
+
+    for (let todo of this.todos) {
+      console.log('Compare : ' + todo.getId() + ' à ' + toFind.getId());
+      if (toFind.getId() == todo.getId()) {
+        index = indice;
+      }
+    }
+    return index;
+  }
 }

@@ -2,12 +2,27 @@
   <thead>
     <tr>
       <th>A faire...</th>
+      <th>Début</th>
+      <th>Fin</th>
+      <th>&nbsp;</th>
     </tr>
   </thead>
 
   <tbody>
     <tr *ngFor="let todo of todos">
       <td>{{ todo.getTitle() }}</td>
+      <td>{{ todo.getDebut() | amDateFormat:'DD/MM/YYYY' }}</td>
+      <td>{{ todo.getFin() | amDateFormat:'DD/MM/YYYY' }}</td>
+      <td>
+        <button mat-raised-button mat-icon-button (click)="load(todo)">
+          <mat-icon>description</mat-icon>
+        </button>
+      </td>
+      <td>
+          <button mat-raised-button mat-icon-button (click)="delete(todo)">
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+        </td>
     </tr>
   </tbody>
 </table>
