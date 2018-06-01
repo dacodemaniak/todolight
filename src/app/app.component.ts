@@ -65,6 +65,10 @@ export class AppComponent implements OnInit {
   }
 
   public formSubmit(): void {
-    this._api.addTodo(this.todoForm.value);
+    this._api.addTodo(this.todoForm.value)
+      .subscribe((data) => {
+        // Utiliser la méthode pour informer des modifications
+        this._api.sendTodo(new Todo().deserialize(data[0]));
+    });
   }
 }
