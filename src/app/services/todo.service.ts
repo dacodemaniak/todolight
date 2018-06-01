@@ -49,8 +49,8 @@ export class TodoService {
      return this._http.post<Todo>(Constants.addTodo, todo);
    }
 
-   public deleteTodo(id: number): Observable<number> {
-     return this._http.delete<number>(Constants.deleteTodo +  id);
+   public deleteTodo(id: number): Observable<Number> {
+     return this._http.delete<Number>(Constants.deleteTodo +  id);
    }
 
    public updateTodo(id: number, todo: Todo): Observable<Todo> {

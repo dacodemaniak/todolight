@@ -39,9 +39,10 @@ export class TodolistComponent implements OnInit {
   }
 
   public delete(todo: Todo) {
-    let index = this.todos.indexOf(todo);
-    this.todos.splice(index, 1);
-    this._api.deleteTodo(todo.getId());
+    this._api.deleteTodo(todo.getId()).subscribe((data) => {
+      let index = this.todos.indexOf(todo);
+      this.todos.splice(index, 1);
+    });
   }
 
   ngOnInit() {
